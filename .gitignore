@@ -5,6 +5,7 @@
 /vendor
 /.json
 /json/*
+/json
 .env
 .env.backup
 .phpunit.result.cache
