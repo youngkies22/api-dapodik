@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\WebService;
 use App\Http\Controllers\SendData;
+use App\Http\Controllers\DataCbt;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +39,10 @@ Route::get('/koneksi', [WebService::class, 'CekKoneksi'])->name('cek.koneksi');
 Route::get('/gtk', [WebService::class, 'getGtk'])->name('get.gtk');
 Route::get('/siswa', [WebService::class, 'getSiswa'])->name('get.siswa');
 Route::get('/rombel', [WebService::class, 'getRombel'])->name('get.rombel');
+
+
+//Route get data master candy redis CBT--------------------------------------------------------------
+Route::get('/master-data', [DataCbt::class, 'getMaterData'])->name('get.master.data');
 
 
 //send data ke applikasi yang kita sesuikan

@@ -59,7 +59,7 @@ class WebService extends Controller
         $urldapodik = 'http://localhost:5774/WebService/';
         $file_headers = @get_headers($urldapodik);
         if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
-          echo"asdas";
+          echo"<p style='color:white'>Tidak Terhubung Dengan Dapodik API</p>";
         }
         else {
           //method url untuk webservice dapodik

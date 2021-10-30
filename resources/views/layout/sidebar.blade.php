@@ -49,20 +49,20 @@
               </a>
             </li>
 
-              <!-- Nav Item - Tables -->
-              <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                  <i class="fas fa-fw fa-table"></i>
-                  <span>Tables</span></a>
-                </li>
+            <!-- menu untuk proses data suka suka -->
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('get.master.data') }}">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Candy Redis</span>
+              </a>
+            </li>
+            
+            <hr class="sidebar-divider d-none d-md-block">
 
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
+            <!-- Sidebar Toggler (Sidebar) -->
+              <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+              </div>
 
-                <!-- Sidebar Toggler (Sidebar) -->
-                <div class="text-center d-none d-md-inline">
-                  <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                </div>
-
-              </ul>
+        </ul>
         <!-- End of Sidebar -->
