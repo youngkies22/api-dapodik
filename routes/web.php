@@ -43,6 +43,7 @@ Route::get('/rombel', [WebService::class, 'getRombel'])->name('get.rombel');
 
 //Route get data master candy redis CBT--------------------------------------------------------------
 Route::get('/master-data', [DataCbt::class, 'getMaterData'])->name('get.master.data');
+Route::get('/proses-master-data', [DataCbt::class, 'prosesMaterData'])->name('proses.master.data');
 
 
 //send data ke applikasi yang kita sesuikan

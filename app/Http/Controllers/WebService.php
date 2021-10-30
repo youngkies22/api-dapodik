@@ -380,6 +380,8 @@ class WebService extends Controller
           $array = $dataDapodik->rows;
           //dd($array);
 
+          
+
           //looping data siswa
           //looping di sini untuk memilih beberapa 
           //data recode siswa yang di butuhkan saja
@@ -401,6 +403,8 @@ class WebService extends Controller
               'ayah'          => strtoupper($val->nama_ayah),
               'kode_rombel'   => $val->rombongan_belajar_id,
               'nama_rombel'   => $val->nama_rombel,
+              'kelas'         => $val->tingkat_pendidikan_id,
+              'kode_jurusan'  => $val->rombongan_belajar_id,
             );
           }
           //write json to file --------------------------------------------------
