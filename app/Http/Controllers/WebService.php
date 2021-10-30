@@ -22,6 +22,168 @@ class WebService extends Controller
        $this->getGtk = 'getGtk';
     }
 
+
+
+//function untuk membantu ----------------------------------------------------------------------------------
+    function getVariabel($npsn=null,$token=null){
+      //function yang pertama kali di cek 
+      //cek file variabel lokasi NPSN dan TOKEN
+        if (file_exists(base_path('/json/variabel.json'))) {
+            $jsonString = file_get_contents(base_path('/json/variabel.json'));
+            $dataVariabel = json_decode($jsonString);
+        } else {
+          //write json to file --------------------------------------------------
+            $arrayVariabel = array(
+              'npsn'  => (empty($npsn)) ? '1234567' : $npsn,  //'MASUKAN NPSNYA'
+              'token' => (empty($token)) ? 'asdwqwerty' : $token,  //MASUKAN TOKEN WEBSERVICE DARI DAPODIK'
+            );
+
+            $fp = fopen(base_path('/json/variabel.json'), 'w');
+            fwrite($fp, json_encode($arrayVariabel, JSON_PRETTY_PRINT));
+            fclose($fp);
+
+          //write json to file --------------------------------------------------
+        }
+        if(!isset($dataVariabel)){
+          return view('koneksi');
+        }
+        else{
+          return $dataVariabel;
+        }
+        
+    }
+
+    function getUrl($url){
+      
+      //method url untuk webservice dapodik
+        $token = $this->getVariabel()->token;
+        $npsn = $this->getVariabel()->npsn;
+        $parameter = $url;
+
+        $response = Http::withToken($token)->get('http://localhost:5774/WebService/'.$parameter,['npsn' => $npsn,]);
+   
+        $array = json_decode($response);
+        return $array;
+
+        //cek port
+        // if(fsockopen("http://localhost",5774)) { 
+
+        //   $response = [
+        //     'status'   =>'LOL',
+        //     'success'  =>'Koneksi Tidak Tersedia',
+        //     'pesan'     =>'Sekolah Tidak Di Temukan',
+        //     'catatan'  =>'Cek Kembali NPSN dan TOKEN <br> Pastikan Masukan dengan Baik dan Benar'
+        //   ];
+        //   return response()->json($response,405);
+
+        //  } 
+        // else { 
+        //   $response = [
+        //     'status'   =>'LOL',
+        //     'success'  =>'Koneksi Tidak Tersedia',
+        //     'pesan'     =>'Sekolah Tidak Di Temukan',
+        //     'catatan'  =>'Cek Kembali NPSN dan TOKEN <br> Pastikan Masukan dengan Baik dan Benar'
+        //   ];
+        //   return response()->json($response,405);
+        // }
+
+    }
+    function getStatusKoneksi(){
+      $jsonString = $this->CekKoneksi();
+      $dataArray = $jsonString->getData();
+      return $dataArray;
+    }
+
+// Handel Koneksi ke Dapodik-------------------------------------------------------------------------------------------------
+
+    public function HubungkanKeDapodik(Request $request)
+    {
+        //proses menghubungkan ke web service api dapodik
+        //atau bisa di bilang proses login ^_^
+        
+        //write json to file --------------------------------------------------
+            $arrayVariabel = array(
+              'npsn'  => $request->npsn,  //'MASUKAN NPSNYA'
+              'token' => $request->token,  //MASUKAN TOKEN WEBSERVICE DARI DAPODIK'
+            );
+
+            $fp = fopen(base_path('/json/variabel.json'), 'w');
+            fwrite($fp, json_encode($arrayVariabel, JSON_PRETTY_PRINT));
+            fclose($fp);
+
+          //write json to file --------------------------------------------------  
+        return redirect('/home');
+    }
+    public function logOut(){
+      //write json to file --------------------------------------------------
+            $arrayVariabel = array(
+              'npsn'  => 'NPSN',  //'MASUKAN NPSNYA'
+              'token' => 'TOKEN',  //MASUKAN TOKEN WEBSERVICE DARI DAPODIK'
+            );
+
+            $fp = fopen(base_path('/json/variabel.json'), 'w');
+            fwrite($fp, json_encode($arrayVariabel, JSON_PRETTY_PRINT));
+            fclose($fp);
+
+          //write json to file --------------------------------------------------  
+        return redirect('/home');
+    }
+
+
+    public function CekKoneksi(){
+      //cek koneksi ke dapodik
+        $dataDapodik = $this->getUrl($this->getSekolah);
+        
+        if(empty($dataDapodik)){
+          $response = [
+                'status'   =>'LOL',
+                'success'  =>'Koneksi Tidak Tersedia',
+                'pesan'     =>'Sekolah Tidak Di Temukan',
+                'catatan'  =>'Cek Kembali NPSN dan TOKEN <br> Pastikan Masukan dengan Baik dan Benar'
+              ];
+              return response()->json($response,405);
+        }
+        else{
+          if(isset($dataDapodik->success) == 'false'){
+            //jika koneksi tidak terhubung
+            $response = [
+                'status'   =>'LOL',
+                'success'  =>'Koneksi Tidak Tersedia',
+                'pesan'    =>$dataDapodik->message,
+                'catatan'  =>'Cek Kembali NPSN dan TOKEN <br> Pastikan Masukan dengan Baik dan Benar'
+              ];
+              return response()->json($response,405);
+          }
+          else{
+            //jika koneksi terhubung 
+            $array2 = $dataDapodik->rows;
+            if(!empty($array2->npsn)){
+              $response = [
+                'status'  =>'OK',
+                'success' =>'Koneksi Tersedia',
+                'nama'    => $array2->nama,
+                'npsn'    => $array2->nama,
+              ];
+              
+              //write json to file --------------------------------------------------
+                $fp = fopen(base_path('/json/getSekolah.json'), 'w');
+                fwrite($fp, json_encode($array2, JSON_PRETTY_PRINT));
+                fclose($fp);
+              //write json to file ----------------------------------------------
+              
+              return response()->json($response,200);
+            }
+            else{
+              $response = [
+                'status'  =>'ERROR',
+                'error'=>'Koneksi Tidak Tersedia'
+              ];
+              return response()->json($response,500);
+            }
+          }
+        }
+      
+    } //end CekKoneksi()
     //menu sidebar -------------------------------------------------------------------------
     public function home()
     {
@@ -119,142 +281,6 @@ class WebService extends Controller
     }
     
     //menu sidebar -------------------------------------------------------------------------
-
-//function untuk membantu ----------------------------------------------------------------------------------
-    function getVariabel($npsn=null,$token=null){
-      //function yang pertama kali di cek 
-      //cek file variabel lokasi NPSN dan TOKEN
-        if (file_exists(base_path('/json/variabel.json'))) {
-            $jsonString = file_get_contents(base_path('/json/variabel.json'));
-            $dataVariabel = json_decode($jsonString);
-        } else {
-          //write json to file --------------------------------------------------
-            $arrayVariabel = array(
-              'npsn'  => (empty($npsn)) ? '1234567' : $npsn,  //'MASUKAN NPSNYA'
-              'token' => (empty($token)) ? 'asdwqwerty' : $token,  //MASUKAN TOKEN WEBSERVICE DARI DAPODIK'
-            );
-
-            $fp = fopen(base_path('/json/variabel.json'), 'w');
-            fwrite($fp, json_encode($arrayVariabel, JSON_PRETTY_PRINT));
-            fclose($fp);
-
-          //write json to file --------------------------------------------------
-        }
-        if(!isset($dataVariabel)){
-          return view('koneksi');
-        }
-        else{
-          return $dataVariabel;
-        }
-        
-    }
-
-    function getUrl($url){
-      //method url untuk webservice dapodik
-        $token = $this->getVariabel()->token;
-        $npsn = $this->getVariabel()->npsn;
-        $parameter = $url;
-
-        $response = Http::withToken($token)->get('http://localhost:5774/WebService/'.$parameter,['npsn' => $npsn,]);
-        $array = json_decode($response);
-        return $array;
-
-    }
-    function getStatusKoneksi(){
-      $jsonString = $this->CekKoneksi();
-      $dataArray = $jsonString->getData();
-      return $dataArray;
-    }
-
-// Handel Koneksi ke Dapodik-------------------------------------------------------------------------------------------------
-
-    public function HubungkanKeDapodik(Request $request)
-    {
-        //proses menghubungkan ke web service api dapodik
-        //atau bisa di bilang proses login ^_^
-        
-        //write json to file --------------------------------------------------
-            $arrayVariabel = array(
-              'npsn'  => $request->npsn,  //'MASUKAN NPSNYA'
-              'token' => $request->token,  //MASUKAN TOKEN WEBSERVICE DARI DAPODIK'
-            );
-
-            $fp = fopen(base_path('/json/variabel.json'), 'w');
-            fwrite($fp, json_encode($arrayVariabel, JSON_PRETTY_PRINT));
-            fclose($fp);
-
-          //write json to file --------------------------------------------------  
-        return redirect('/home');
-    }
-    public function logOut(){
-      //write json to file --------------------------------------------------
-            $arrayVariabel = array(
-              'npsn'  => 'NPSN',  //'MASUKAN NPSNYA'
-              'token' => 'TOKEN',  //MASUKAN TOKEN WEBSERVICE DARI DAPODIK'
-            );
-
-            $fp = fopen(base_path('/json/variabel.json'), 'w');
-            fwrite($fp, json_encode($arrayVariabel, JSON_PRETTY_PRINT));
-            fclose($fp);
-
-          //write json to file --------------------------------------------------  
-        return redirect('/home');
-    }
-
-
-    public function CekKoneksi(){
-      //cek koneksi ke dapodik
-        $dataDapodik = $this->getUrl($this->getSekolah);
-        if(empty($dataDapodik)){
-          $response = [
-                'status'   =>'LOL',
-                'success'  =>'Koneksi Tidak Tersedia',
-                'pesan'     =>'Sekolah Tidak Di Temukan',
-                'catatan'  =>'Cek Kembali NPSN dan TOKEN <br> Pastikan Masukan dengan Baik dan Benar'
-              ];
-              return response()->json($response,405);
-        }
-        else{
-          if(isset($dataDapodik->success) == 'false'){
-            //jika koneksi tidak terhubung
-            $response = [
-                'status'   =>'LOL',
-                'success'  =>'Koneksi Tidak Tersedia',
-                'pesan'    =>$dataDapodik->message,
-                'catatan'  =>'Cek Kembali NPSN dan TOKEN <br> Pastikan Masukan dengan Baik dan Benar'
-              ];
-              return response()->json($response,405);
-          }
-          else{
-            //jika koneksi terhubung 
-            $array2 = $dataDapodik->rows;
-            if(!empty($array2->npsn)){
-              $response = [
-                'status'  =>'OK',
-                'success' =>'Koneksi Tersedia',
-                'nama'    => $array2->nama,
-                'npsn'    => $array2->nama,
-              ];
-              
-              //write json to file --------------------------------------------------
-                $fp = fopen(base_path('/json/getSekolah.json'), 'w');
-                fwrite($fp, json_encode($array2, JSON_PRETTY_PRINT));
-                fclose($fp);
-              //write json to file ----------------------------------------------
-              
-              return response()->json($response,200);
-            }
-            else{
-              $response = [
-                'status'  =>'ERROR',
-                'error'=>'Koneksi Tidak Tersedia'
-              ];
-              return response()->json($response,500);
-            }
-          }
-        }
-      
-    } //end CekKoneksi()
 
 //method get data dapodik ke file json ---------------------------------------------------------------------
     public function getRombel(){

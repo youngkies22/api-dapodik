@@ -8,7 +8,7 @@
         "php": "^7.3|^8.0",
         "dimasahmad/dapodik-sdk": "^0.1.0@alpha",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^6.5.0",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5"

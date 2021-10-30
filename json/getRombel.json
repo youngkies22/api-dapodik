@@ -1,0 +1,86 @@
+[
+    {
+        "rombel_id": "9e0b7784-b772-42fb-a00d-a1ca166df16f",
+        "nama": "X TB",
+        "level_rombel": "10",
+        "jurusan_id": "40100805",
+        "jurusan": "Tata Busana"
+    },
+    {
+        "rombel_id": "eef3d075-a659-4272-a5b8-15b68b73ef69",
+        "nama": "X AKL",
+        "level_rombel": "10",
+        "jurusan_id": "35291535",
+        "jurusan": "Akuntansi dan Keuangan Lembaga"
+    },
+    {
+        "rombel_id": "c71aa338-3399-47ab-80bc-e35fc34de0ad",
+        "nama": "X BDP",
+        "level_rombel": "10",
+        "jurusan_id": "35271525",
+        "jurusan": "Bisnis Daring dan Pemasaran"
+    },
+    {
+        "rombel_id": "971637b2-2ead-4734-bee4-f8d3ba0661e2",
+        "nama": "XI TB",
+        "level_rombel": "11",
+        "jurusan_id": "40100805",
+        "jurusan": "Tata Busana"
+    },
+    {
+        "rombel_id": "5d1df667-7cc6-44a9-a6b7-6e0f73589a93",
+        "nama": "XI BDP",
+        "level_rombel": "11",
+        "jurusan_id": "35271525",
+        "jurusan": "Bisnis Daring dan Pemasaran"
+    },
+    {
+        "rombel_id": "c6b5367b-dbe9-4a26-a9dc-9a2d03d43f7b",
+        "nama": "XI AKL 1",
+        "level_rombel": "11",
+        "jurusan_id": "35291535",
+        "jurusan": "Akuntansi dan Keuangan Lembaga"
+    },
+    {
+        "rombel_id": "641e66cc-b98e-4429-b74a-f7b5a6815df8",
+        "nama": "XI AKL 2",
+        "level_rombel": "11",
+        "jurusan_id": "35291535",
+        "jurusan": "Akuntansi dan Keuangan Lembaga"
+    },
+    {
+        "rombel_id": "c9052695-841f-4ce1-95a1-29c05bd0ada8",
+        "nama": "XII AKL 1",
+        "level_rombel": "12",
+        "jurusan_id": "35291535",
+        "jurusan": "Akuntansi dan Keuangan Lembaga"
+    },
+    {
+        "rombel_id": "69963d7d-1cb1-4918-aa15-b0a425c96c21",
+        "nama": "XII TB 1",
+        "level_rombel": "12",
+        "jurusan_id": "40100805",
+        "jurusan": "Tata Busana"
+    },
+    {
+        "rombel_id": "a26e66b6-5637-4608-b419-376b16b8665c",
+        "nama": "XII AKL 2",
+        "level_rombel": "12",
+        "jurusan_id": "35291535",
+        "jurusan": "Akuntansi dan Keuangan Lembaga"
+    },
+    {
+        "rombel_id": "f7cf973c-a68e-45d8-9ea0-2001e5b51d1c",
+        "nama": "XII BDP",
+        "level_rombel": "12",
+        "jurusan_id": "35271525",
+        "jurusan": "Bisnis Daring dan Pemasaran"
+    },
+    {
+        "rombel_id": "450d21db-a2a7-45e5-872f-154c41b5e560",
+        "nama": "XII TB 2",
+        "level_rombel": "12",
+        "jurusan_id": "40100805",
+        "jurusan": "Tata Busana"
+    }
+]
