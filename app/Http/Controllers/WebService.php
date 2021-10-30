@@ -55,37 +55,25 @@ class WebService extends Controller
 
     function getUrl($url){
       
-      //method url untuk webservice dapodik
-        $token = $this->getVariabel()->token;
-        $npsn = $this->getVariabel()->npsn;
-        $parameter = $url;
+     
+        $urldapodik = 'http://localhost:5774/WebService/';
+        $file_headers = @get_headers($urldapodik);
+        if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
+          echo"asdas";
+        }
+        else {
+          //method url untuk webservice dapodik
+          $token = $this->getVariabel()->token;
+          $npsn = $this->getVariabel()->npsn;
+          $parameter = $url;
 
-        $response = Http::withToken($token)->get('http://localhost:5774/WebService/'.$parameter,['npsn' => $npsn,]);
-   
-        $array = json_decode($response);
-        return $array;
+          $response = @Http::withToken($token)->get($urldapodik.$parameter,['npsn' => $npsn,]);
+    
+          $array = json_decode($response);
+          return $array;
+        }
 
-        //cek port
-        // if(fsockopen("http://localhost",5774)) { 
-
-        //   $response = [
-        //     'status'   =>'LOL',
-        //     'success'  =>'Koneksi Tidak Tersedia',
-        //     'pesan'     =>'Sekolah Tidak Di Temukan',
-        //     'catatan'  =>'Cek Kembali NPSN dan TOKEN <br> Pastikan Masukan dengan Baik dan Benar'
-        //   ];
-        //   return response()->json($response,405);
-
-        //  } 
-        // else { 
-        //   $response = [
-        //     'status'   =>'LOL',
-        //     'success'  =>'Koneksi Tidak Tersedia',
-        //     'pesan'     =>'Sekolah Tidak Di Temukan',
-        //     'catatan'  =>'Cek Kembali NPSN dan TOKEN <br> Pastikan Masukan dengan Baik dan Benar'
-        //   ];
-        //   return response()->json($response,405);
-        // }
+        
 
     }
     function getStatusKoneksi(){
